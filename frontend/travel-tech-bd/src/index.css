@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    margin: 0px;
+  }
+
+.container-fluid {
+    width: 100%;
+    padding-right: 1px;
+    padding-left: 1px;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
