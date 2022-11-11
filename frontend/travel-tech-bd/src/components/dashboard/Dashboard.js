@@ -8,7 +8,7 @@ function Dashboard({ logo }) {
     <div className=''>
       <Header logo={logo} />
       {/* <Menu /> */}
-      <div className='container-fluid bg-slate-600 flex pt-3'>
+      <div className='container-fluid flex pt-3'>
         <Menu />
         <div style={{marginLeft: "332px"}}>
           <Content />

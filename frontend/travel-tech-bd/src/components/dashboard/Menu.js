@@ -10,7 +10,7 @@ function Menu() {
     })
     return (
         <div className='flex h-screen fixed'>
-            <div className='min-w-[317px] bg-slate-500 h-screen mt-[-11px]'>
+            <div className='min-w-[317px] h-screen '>
                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> */}
                 <ul className='font-bold m-7 text-xl'>
                     <li>
@@ -24,8 +24,8 @@ function Menu() {
                                 </svg>}
                         </div>
                         {tabIndex.show_passengers ? <ul className='font-medium ml-5'>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Add Record</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>List Record</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Add Record</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>List Record</li>
                             {/* <li className='hover:text-blue-500 cursor-pointer m-1'>Justify</li> */}
                         </ul> : null}
                     </li>
@@ -40,9 +40,9 @@ function Menu() {
                                 </svg>}
                         </div>
                         {tabIndex.show_reports ? <ul className='font-medium ml-5'>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Provider Reports</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Clients Reports</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Service Reports</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Provider Reports</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Clients Reports</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Service Reports</li>
                         </ul> : null}
                     </li>
                     <li>
@@ -56,8 +56,8 @@ function Menu() {
                                 </svg>}
                         </div>
                         {tabIndex.show_staff ? <ul className='font-medium ml-5'>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Add Staff</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>List Staff</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Add Staff</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>List Staff</li>
                             {/* <li className='hover:text-blue-500 cursor-pointer m-1'>Justify</li> */}
                         </ul> : null}
                     </li>
@@ -72,9 +72,9 @@ function Menu() {
                                 </svg>}
                         </div>
                         {tabIndex.show_db ? <ul className='font-medium ml-5'>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Passenger</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Clients</li>
-                            <li className='hover:text-blue-500 cursor-pointer m-1'>Service Provider</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Passenger</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Clients</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>Service Provider</li>
                         </ul> : null}
                     </li>
                 </ul>
