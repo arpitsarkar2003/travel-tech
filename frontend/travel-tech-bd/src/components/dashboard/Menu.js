@@ -1,18 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function Menu() {
-    const [tabIndex, setTabIndex] = React.useState({
-        show_passengers: false,
-        show_reports: false,
-        show_staff: false,
-        show_db: false,
-    })
+function Menu({tabIndex, setTabIndex, menuState, setMenuState}) {
+    
     return (
         <div className='flex h-screen fixed'>
             <div className='min-w-[317px] h-screen '>
                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> */}
                 <ul className='font-bold m-7 text-xl'>
+                    <li>
+
+                    <div className='flex justify-between m-3 items-center'>
+                        <span>Dashboard</span>
+                    </div>
+
+                    </li>
                     <li>
                         <div className='flex justify-between m-3 items-center' onClick={() => setTabIndex({ ...tabIndex, show_passengers: !tabIndex.show_passengers })}>
                             <span>Records</span>
@@ -24,8 +26,8 @@ function Menu() {
                                 </svg>}
                         </div>
                         {tabIndex.show_passengers ? <ul className='font-medium ml-5'>
-                            <li className='hover:text-blue-600 cursor-pointer m-1'>Add Record</li>
-                            <li className='hover:text-blue-600 cursor-pointer m-1'>List Record</li>
+                            <li className={menuState === "add_user" ? 'text-blue-600 hover:text-blue-600 cursor-pointer m-1 ' : 'hover:text-blue-600 cursor-pointer m-1'} onClick={() => setMenuState("add_user")}>Add User</li>
+                            <li className='hover:text-blue-600 cursor-pointer m-1'>List User</li>
                             {/* <li className='hover:text-blue-500 cursor-pointer m-1'>Justify</li> */}
                         </ul> : null}
                     </li>

@@ -245,15 +245,15 @@
 
 import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+// import Select from '@mui/material/Select';
+import { InputAdornment, OutlinedInput, TextField } from '@mui/material';
+import ResponsiveDialog from './ResponsiveDialog';
 
 function User() {
-  const userTemplate = {
+  const userTemplate = () => ({
     // name: "",
-    email: "",
-    servicephone: "",
     record_date: "",
     client: "",
     service: "",
@@ -262,157 +262,81 @@ function User() {
     desc: "",
     travel_date: "",
     provider: "",
-    status: "",
+    status: "due",
     net_fare: 0,
     service_charge: 0,
     discount: 0,
     total_fare: 0
-  }
+  })
   const [users, setUsers] = React.useState([
-    userTemplate
+    userTemplate()
   ])
   const addUser = () => {
-    setUsers([...users, userTemplate])
-    console.log("hello")
+    setUsers([...users, userTemplate()])
+    // console.log("hello")
   }
   const onchange = (e, index) => {
     const updatedUsers = users.map((user, i) => index === i ? Object.assign(user, { [e.target.name]: e.target.value }) : user
     );
     setUsers(updatedUsers)
   };
-  const removeForm = (index,e) => {
+  const removeForm = (index, e) => {
     const removeUser = [...users];
     removeUser.splice(index, 1);
     setUsers(removeUser)
     e.preventDefault();
-    
-  };
-  const [paymentStatus, setPaymentStatus] = React.useState('');
 
-  const handleChange = (event) => {
-    setPaymentStatus(event.target.value);
   };
+
+  const onKeyPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey) {
+       e.preventDefault();
+       addUser();
+   }
+   
+ };
+
+  const colorThemeStatus = (xstatus) => {
+    if (xstatus === "due") {
+      return " bg-orange-200";
+    } else if (xstatus === "partial_paid") {
+      return " bg-yellow-100";
+    } else if (xstatus === "paid") {
+      return " bg-green-100";
+    } else if (xstatus === "refund") {
+      return " bg-purple-100";
+    } else {
+      return "";
+    }
+  }
 
   return (
-    <div className=''>
+    <div className='' onKeyDown={onKeyPress}>
       <button onClick={addUser} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
         Add New User
       </button>
-      <button className="bg-blue-500 mx-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-        Add User to List
-      </button>
+
+      <form>
 
       {users.map((user, index) => (
-        <div className="w-screen m-5 max-w-xs flex-col " key={index}>
-          <form className="bg-white shadow-md w-[120vh] rounded px-8 pt-6 pb-8 mb-4">
-            <div className="mb-4 w-[25%]">
-              <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                Record Date
-              </label>
-              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" type="date" placeholder="record_date" name='record_date' onChange={(e) => onchange(e, index)} value={user.record_date} />
-            </div>
+        <div className="w-screen m-5 max-w-xs flex-col" key={index}>
+          <div className={"snap-center shadow-md w-[120vh] rounded px-8 pt-6 pb-8 mb-4" + colorThemeStatus(user.status)}>
 
-
-            <div>
-              <div className='flex justify-between'>
-                <div className="mb-4 w-full mr-5">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    client
-                  </label>
-                  <input className="shadow border rounded w-full py-2 px-3 text-gray-700 mb-3 focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="client name" name='client' value={user.client} onChange={(e) => onchange(e, index)} />
-                </div>
-                <div className="mb-4 w-full">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    service
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 focus:outline-none focus:shadow-outline" id="number" type="number" placeholder="service" value={user.service} name='service' onChange={(e) => onchange(e, index)} />
-                </div>
-              </div>
-
-
-
-
-              <div className='flex justify-between'>
-                <div className="mb-4 w-full mr-5">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    ref_no
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ref_no" type="text" placeholder="ref_no" name='ref_no' onChange={(e) => onchange(e, index)} value={user.ref_no} />
-                </div>
-                <div className="mb-4 w-full">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    passenger
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="passenger" type="text" placeholder="passenger name" name='passenger' onChange={(e) => onchange(e, index)} value={user.passenger} />
-                </div>
-              </div>
-              <div className="mb-4 w-full mr-2">
+            <div className='flex justify-between'>
+              <div className="mb-4 w-[25%]">
                 <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                  Description
+                  Record Date
                 </label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="desc" type="text" placeholder="enter desc" name='desc' onChange={(e) => onchange(e, index)} value={user.desc} />
+                <input className="opacity-70 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" type="date" placeholder="record_date" name='record_date' onChange={(e) => onchange(e, index)} value={user.record_date} autoFocus/>
               </div>
-
-              <div className='flex justify-between'>
-
-                <div className="mb-4 w-[25%] mr-2">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Travel Date
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline opacity-70 " id="travel_date" type="date" placeholder="travel_date" name='travel_date' onChange={(e) => onchange(e, index)} value={user.travel_date} />
-                </div>
-                <div className="mb-4 w-full mr-2">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    provider
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="provider" type="text" placeholder="provider name" name='provider' onChange={(e) => onchange(e, index)} value={user.provider} />
-                </div>
-              </div>
-
-
-
-
-              <div className='flex justify-between' >
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    net_fare
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="net_fare" type="number" placeholder="net_fare" name='net_fare' onChange={(e) => onchange(e, index)} value={user.net_fare} />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    service_charge
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="service_charge" type="number" placeholder="service_charge" name='service_charge' onChange={(e) => onchange(e, index)} value={user.service_charge} />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    discount
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="discount" type="number" placeholder="discount" name='discount' onChange={(e) => onchange(e, index)} value={user.discount} />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    total_fare
-                  </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="total_fare" type="number" placeholder="total_fare" name='total_fare' onChange={(e) => onchange(e, index)} value={user.total_fare} />
-                </div>
-              </div>
-              {/* <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-                  status
-                </label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" type="text" placeholder="status option" name='status' onChange={(e) => onchange(e, index)} value={user.status} />
-              </div> */}
-              <div>
-                <FormControl className='w-[25%]'>
-                  <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+              <div className='' >
+                {/* <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
                   <Select
-                    labelId="demo-simple-select-autowidth-label"
-                    id="demo-simple-select-autowidth"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
                     value={paymentStatus}
                     onChange={handleChange}
-                    autoWidth
                     label="Age"
                   >
                     <MenuItem value="">
@@ -422,18 +346,192 @@ function User() {
                     <MenuItem value={21}>Twenty one</MenuItem>
                     <MenuItem value={22}>Twenty one and a half</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
+                <div className='flex justify-between' >
+                  <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Payment Status
+                  </label>
+                  <div className='ml-2' >
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                </div>
+                <select name="status" className={"form-select font-bold   appearance-none opacity-70     block     arrowkey     px-5     py-2     text-sm     font-normal     text-gray-700     bg-white bg-clip-padding bg-no-repeat     border border-solid border-gray-300     rounded     transition     ease-in-out     m-0     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "} onChange={(e) => onchange(e, index)} >
+                  <option selected={user.status === "due" ? true : false} className={"" + colorThemeStatus("due")} value="due">Due</option>
+                  {/* <option selected={user.status === "partial_paid" ? true : false} className={colorThemeStatus("partial_paid")}  value="partial_paid">Partial Paid</option> */}
+                  <option selected={user.status === "paid" ? true : false} className={colorThemeStatus("paid")} value="paid">Paid</option>
+                  {/* <option selected={user.status === "refund" ? true : false} className={colorThemeStatus("refund")}  value="refund">Refund</option> */}
+                </select>
+
+
+              </div>
+              <div className="mb-4 w-[25%] mr-2">
+                <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
+                  Travel Date
+                </label>
+                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline opacity-70 " id="travel_date" type="date" placeholder="travel_date" name='travel_date' onChange={(e) => onchange(e, index)} value={user.travel_date} />
               </div>
             </div>
-            <div className="flex items-center justify-between">
 
-              <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={(e) => removeForm(index, e)} >Delete</button>
+            <div>
+              <div className='flex justify-between'>
+                <div className="mb-4 w-full mr-5">
+                  <TextField
+                    required
+                    className='opacity-70 bg-white w-[100%]'
+                    id="outlined-required"
+                    label="Client Name"
+                    name='client'
+                    value={user.client} onChange={(e) => onchange(e, index)}
+                  />
+                </div>
+                <div className="mb-4 w-full">
+
+                  <TextField
+                    required
+                    id="outlined-required"
+                    label="Service"
+                    className='opacity-70 bg-white w-[100%]'
+                    value={user.service} name='service' onChange={(e) => onchange(e, index)}
+                  />
+                </div>
+              </div>
+
+              <div className='flex justify-between'>
+                <div className="mb-4 w-full mr-5">
+                  <TextField
+                    required
+                    id="outlined-required"
+                    label="Reference No."
+                    className='opacity-70 bg-white w-[100%]'
+                    name='ref_no' onChange={(e) => onchange(e, index)} value={user.ref_no}
+                  />
+                </div>
+                <div className="mb-4 w-full">
+                  <TextField
+                    required
+                    id="outlined-required"
+                    className='opacity-70 bg-white w-[100%]'
+                    label="Passenger Name"
+                    name='passenger' onChange={(e) => onchange(e, index)} value={user.passenger}
+                  />
+                </div>
+              </div>
+              <div className="mb-4 w-full mr-2">
+                <TextField
+                  required
+                  fullWidth
+                  className='opacity-70 bg-white w-[100%]'
+                  id="outlined-required"
+                  label="Description"
+                  name='desc' onChange={(e) => onchange(e, index)} value={user.desc} />
+              </div>
+
+              <div className='flex'>
+
+
+                <div className="mb-4 w-full mr-2">
+                  <TextField
+                    required
+                    className='opacity-70 bg-white w-[100%]'
+                    id="outlined-required"
+                    label="Provider"
+                    name='provider' onChange={(e) => onchange(e, index)} value={user.provider} />
+                </div>
+                <div className="mb-4 mr-2">
+                  <FormControl >
+                    <InputLabel htmlFor="outlined-adornment-amount">Net fare</InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-amount"
+                      value={user.net_fare}
+                      name='net_fare'
+                      className='opacity-70 bg-white w-[100%]'
+                      onChange={(e) => onchange(e, index)}
+                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label="Net Fare"
+                      type='number'
+                    />
+                  </FormControl>
+                </div>
+              </div>
+
+
+
+
+              <div className='flex justify-between' >
+
+                <div className="mb-4">
+                  <FormControl className="w-[100%]" >
+                    <InputLabel fullWidth htmlFor="outlined-adornment-amount">Service</InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-amount"
+                      value={user.service_charge}
+                      name='service_charge'
+                      fullWidth
+                      className='opacity-70 bg-white w-[100%]'
+                      onChange={(e) => onchange(e, index)}
+                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label="Amount"
+                      type='number'
+                    />
+                  </FormControl>
+                </div>
+                <div className="mb-4">
+                  <FormControl className="w-[100%]" >
+                    <InputLabel htmlFor="outlined-adornment-amount">Discount</InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-amount"
+                      value={user.discount}
+                      name='discount'
+                      className='opacity-70 bg-white w-[100%]'
+                      onChange={(e) => onchange(e, index)}
+                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label="Amount"
+                      type='number'
+                    /> </FormControl>
+                </div>
+                <div className="mb-4">
+                  <FormControl className="w-[100%]" >
+                    <InputLabel htmlFor="outlined-adornment-amount">Total Fare</InputLabel>
+                    <OutlinedInput
+                      readOnly
+                      id="outlined-adornment-amount"
+                      value={user.total_fare}
+                      name='total_fare'
+                      className='opacity-70 bg-white w-[100%]'
+                      onChange={(e) => onchange(e, index)}
+                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label="Amount"
+                      type='number'
+                    /> </FormControl>
+                </div>
+              </div>
+              {/* <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
+                  status
+                </label>
+                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" type="text" placeholder="status option" name='status' onChange={(e) => onchange(e, index)} value={user.status} />
+              </div> */}
+
+            </div>
+            <div className="flex items-center justify-between">
+              <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type='button' onClick={(e) => removeForm(index, e)} >Delete</button>
             </div>
 
-          </form>
+          </div>
 
         </div>
       ))}
+      <div className='flex'>
+        <ResponsiveDialog users={users} />
+        <button className={users.length > 0 ? "m-5 bg-slate-300 hover:bg-slate-500 mx-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" : "hidden"} type="button">
+          Cancel
+        </button>
+
+      </div>
+      </form>
+
     </div>
   )
 }

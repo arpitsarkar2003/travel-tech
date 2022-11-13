@@ -2,11 +2,14 @@ import React from 'react'
 import User from './passenger/User'
 
 
-function Content() {
+function Content({menuState, setMenuState}) {
   
   return (
     <div >
-      <User/>
+      {
+        menuState === "add_user" ? <User/> : null
+      }
+      
       
     </div>
   )
